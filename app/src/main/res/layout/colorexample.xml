@@ -4,16 +4,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="6dp">
+    android:padding="@dimen/color_linear_padding">
 
     <TextView
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/text"
-        android:background="#DA9F8D"
-        android:textColor="#0C0C0C"
-        android:textSize="60dp"
+        android:background="@color/color_textview_background"
+        android:textColor="@color/textcolor_textview"
+        android:textSize="@dimen/color_textsize_textview"
         />
 
 </LinearLayout>
