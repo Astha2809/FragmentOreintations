@@ -23,6 +23,7 @@ public class FragmentColorsName extends Fragment {
     String[] ar = new String[10];
     Context context;
     View rootView;
+    private onItemClickListener listener;
 
 
     @Override
@@ -65,7 +66,8 @@ public class FragmentColorsName extends Fragment {
         // recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new MyAdapter(ar, this, context, orientation);
+        //adapter = new MyAdapter(ar, this, context, orientation);
+        adapter = new MyAdapter(ar, this, context, orientation, listener);
         recyclerView.setAdapter(adapter);
 
 

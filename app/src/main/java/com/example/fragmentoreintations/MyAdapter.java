@@ -1,6 +1,5 @@
 package com.example.fragmentoreintations;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,23 +12,23 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     String[] data;
     public final Context FragmentColorsName;
-    Fragment FragmentColorDescription ;
+    Fragment FragmentColorDescription;
     MyAdapter activity;
     int orientation;
+    private final onItemClickListener listener;
 
-
-    public MyAdapter(String[] data, com.example.fragmentoreintations.FragmentColorsName colorsName, Context fragmentColorsName, int orientation) {
+    public MyAdapter(String[] data, com.example.fragmentoreintations.FragmentColorsName colorsName,
+                     Context fragmentColorsName, int orientation, onItemClickListener listener) {
         this.data = data;
         this.FragmentColorsName = fragmentColorsName;
         this.orientation = orientation;
+        this.listener = listener;
     }
 
     @NonNull
@@ -43,50 +42,51 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         ((TextView) holder.view.findViewById(R.id.text)).setText(data[position]);
+        //holder.bind(data.get(position), listener);
+        holder.bind(data[position], listener, position);
 
         activity = MyAdapter.this;
-        holder.fragmentlayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                openNewFragment();
-
-               final Bundle bundle=new Bundle();
-                bundle.putInt("keypair",position);
-                FragmentColorDescription.setArguments(bundle);
-                //int value2=activity.getResources
-                Toast.makeText(FragmentColorsName, "selected", Toast.LENGTH_SHORT).show();
-
-
-
-            }
-        });
+//        holder.fragmentlayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                openNewFragment();
+//
+//               final Bundle bundle=new Bundle();
+//                bundle.putInt("keypair",position);
+//                FragmentColorDescription.setArguments(bundle);
+//                //int value2=activity.getResources
+//                Toast.makeText(FragmentColorsName, "selected", Toast.LENGTH_SHORT).show();
+//
+//
+//
+//            }
+//        });
 
 
     }
+
     private void openNewFragment() {
         Log.e("here", String.valueOf(orientation));
-        if(orientation == 1){
+        if (orientation == 1) {
             FragmentColorDescription = new FragmentColorDescription();
 
             ((MainActivity) FragmentColorsName).getSupportFragmentManager().beginTransaction().
                     replace(R.id.framecontainer, FragmentColorDescription).addToBackStack("ddd").commit();
-        }
-        else {
+        } else {
             FragmentColorDescription = new FragmentColorDescription();
 
             ((MainActivity) FragmentColorsName).getSupportFragmentManager().beginTransaction().
                     replace(R.id.frame2, FragmentColorDescription).commit();
         }
 
-       //int value=getActivity().getResources().getConfiguration().orientation;
-       //if(value==)
+        //int value=getActivity().getResources().getConfiguration().orientation;
+        //if(value==)
 
 //        Bundle bundle=new Bundle();
 //        bundle.putInt("key",position);
-
 
 
     }
@@ -95,6 +95,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public int getItemCount() {
         return data.length;
     }
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public View view;
@@ -108,9 +109,25 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         }
 
+        public void bind(final String data, final onItemClickListener listener, final int position) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+
+
+                public void onClick(View v) {
+                    //listener.onItemClick(data);
+                    openNewFragment();
+                    final Bundle bundle = new Bundle();
+                    bundle.putInt(String.valueOf(R.string.keypair), position);
+
+                    FragmentColorDescription.setArguments(bundle);
+
+                    Toast.makeText(FragmentColorsName, "selected", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+        }
+
     }
-
-
 
 
 }

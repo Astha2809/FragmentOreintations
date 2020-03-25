@@ -26,7 +26,7 @@ Context context;
         Bundle bundle=getArguments();
         int args=0;
         if(bundle!=null){
-             args=bundle.getInt("keypair");
+             args=bundle.getInt(String.valueOf(R.string.keypair));
         }
 
         switch (args){
